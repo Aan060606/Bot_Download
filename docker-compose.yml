@@ -1,0 +1,24 @@
+# docker-compose.yml
+version: '3.3' # Versi yang kompatibel
+
+services:
+  telegram_poop_bot:
+    build: .
+    container_name: telegram_poop_bot_container
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      # Mount direktori kode lokal ke dalam kontainer untuk pengembangan cepat
+      - ./bot:/app/bot
+      - ./core:/app/core
+      - ./utils:/app/utils
+      - ./main_runner.py:/app/main_runner.py
+      # Opsional: Jika Anda ingin mempertahankan folder downloads di luar kontainer
+      - ./downloads:/app/downloads
+
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
